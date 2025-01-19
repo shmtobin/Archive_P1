@@ -1,0 +1,3 @@
+Decimal: 10
+Binary: 1010
+Hexadecimal: A
