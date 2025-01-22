@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Input must be a decimal
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <decimal_number>"
+    exit 1
+fi
+
+# Input must be a number and  less than 100000 
+decimal=$1
+if ! [[ "$decimal" =~ ^[0-9]+$ ]] || [ "$decimal" -ge 100000 ]; then
+    echo "Error: Input must be a decimal number less than 100000."
+    exit 1
+fi
+decimal_to_binary() {
+    local num=$1
+    local binary=""
+    while [ "$num" -gt 0 ]; do
+        binary=$((num % 2))$binary
+        num=$((num / 2))
+    done
+    echo "$binary"
+}
+
+# Decimal to Hexadecimal Conversion
+decimal_to_hexadecimal() {
+    local num=$1
+    local hex=""
+    local hex_map=("0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "A" "B" "C" "D" "E" "F")
+    while [ "$num" -gt 0 ]; do
+        hex=${hex_map[$((num % 16))]}$hex
+        num=$((num / 16))
+    done
+    echo "$hex"
+}
+
+# Perform conversions
+binary_result=$(decimal_to_binary "$decimal")
+hexadecimal_result=$(decimal_to_hexadecimal "$decimal")
+
+# Output results to a file
+output_file="conversion_result.txt"
+echo "Decimal: $decimal" > "$output_file"
+echo "Binary: $binary_result" >> "$output_file"
+echo "Hexadecimal: $hexadecimal_result" >> "$output_file"
+
+# Inform the user
+echo "Conversion results saved to $output_file."
